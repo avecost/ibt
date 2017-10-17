@@ -20,3 +20,15 @@ func InitDB(dataSourceName string) {
 		log.Panic(err)
 	}
 }
+
+func DBPrepareStatement(stmtStr string) (*sql.Stmt, error) {
+	stmt, err := DB.Prepare(stmtStr)
+	if err != nil {
+		return nil, err
+	}
+	return stmt, nil
+}
+
+func DBCloseStatement(stmt *sql.Stmt) {
+	stmt.Close()
+}

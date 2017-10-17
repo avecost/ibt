@@ -3,7 +3,7 @@ package ties
 import (
 	"log"
 
-	"github.com/avecost/ibt/config"
+	"database/sql"
 )
 
 type Tie struct {
@@ -30,14 +30,8 @@ func Rows(strSQL string) (count int) {
 
 */
 
-func InsertTie(t Tie) {
-	stmt, err := config.DB.Prepare("INSERT INTO ties (login, game_name, bet_banker, bet_player, bet_tie, total_payout, game_number, game_time, dealer_cards, player_cards) VALUES(?,?,?,?,?,?,?,?,?,?)")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer stmt.Close()
-
-	_, err = stmt.Exec(t.Login, t.GameName, t.BetBanker, t.BetPlayer, t.BetTie, t.TotalPayout, t.GameNumber, t.GameTime, t.DealerCards, t.PlayerCards)
+func InsertTie(stmt *sql.Stmt, t Tie) {
+	_, err := stmt.Exec(t.Login, t.GameName, t.BetBanker, t.BetPlayer, t.BetTie, t.TotalPayout, t.GameNumber, t.GameTime, t.DealerCards, t.PlayerCards)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

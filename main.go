@@ -4,6 +4,7 @@ import (
 	"github.com/avecost/ibt/config"
 	"github.com/avecost/ibt/csv"
 	"os"
+	"log"
 )
 
 func main() {
@@ -15,5 +16,9 @@ func main() {
 	dbSourceName := os.Args[2]
 	config.InitDB(dbSourceName)
 
-	csv.ImportCSV(fToUpload)
+	count, err := csv.ImportCSV(fToUpload)
+	if err != nil {
+		log.Panic("Error importing CSV")
+	}
+	log.Printf("Process %d records\n", count)
 }
